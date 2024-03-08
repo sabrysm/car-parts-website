@@ -1,0 +1,12 @@
+asgiref==3.7.2
+certifi==2024.2.2
+Django==5.0.2
+django-browser-reload==1.12.1
+django-environ==0.11.2
+django-tailwind==3.8.0
+elasticsearch==7.17.9
+pillow==10.2.0
+psycopg2-binary==2.9.9
+sqlparse==0.4.4
+tzdata==2024.1
+urllib3==1.26.18

@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+    <title>{% block title %} {% endblock %} | Car Parts</title>
+</head>
+<!--Make the bg full width and extended high -->
+
+<body class="bg-[url('/static/media/background.png')] bg-cover h-full min-w-fit">
+    <!-- fixed header-->
+    <nav class="fixed p-5 shadow md:flex md:items-center md:justify-between bg-[#282c3c] text-white w-full" id="navbar">
+        <div class="flex justify-between items-center ">
+            <span class="text-2xl cursor-pointer">
+                <a href="{% url 'core:index' %}">
+                <img src="{% static 'logo.png' %}" alt="Car Parts" class="w-40 cursor-pointer">
+                </a>
+            </span>
+
+            <span class="text-3xl cursor-pointer mx-2 md:hidden block">
+                <ion-icon name="menu" onclick="Menu(this)"></ion-icon>
+            </span>
+        </div>
+        <ul
+            class="md:flex md:items-center z-[2] md:z-auto md:static absolute bg-inherit w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-500">
+            <li class="mx-4 my-6 md:my-0">
+                <a href="/" class="text-lg hover:text-[#b91c1c] duration-500">HOME</a>
+            </li>
+            <li class="mx-4 my-6 md:my-0">
+                <a href="/" class="text-lg hover:text-[#b91c1c] duration-500">PARTS</a>
+            </li>
+            <li class="mx-4 my-6 md:my-0">
+                <a href="{% url 'search' %}" class="text-lg hover:text-[#b91c1c] duration-500">SEARCH</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'core:login' %}"
+                class="bg-[#b91c1c] text-white duration-500 px-6 py-2 mx-4 hover:bg-red-800 rounded ">
+                LOGIN
+            </a>
+            {% else %}
+            <a href="{% url 'core:logout' %}" class="text-white w-12 ml-24 mr-6 my-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-8 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            </a>
+                  
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="py-20 md:px-6 md:py-28">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script>
+        function Menu(e) {
+            let list = document.querySelector('ul');
+            e.name === 'menu' ? (e.name = "close", list.classList.add('top-[80px]'), list.classList.add('opacity-100')) : (e.name = "menu", list.classList.remove('top-[80px]'), list.classList.remove('opacity-100'))
+        }
+    </script>
+
+</body>
+
+</html>

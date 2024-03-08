@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Car Parts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,700,500,600,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+  <script src="
+https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js
+"></script>
+</head>
+<!-- escape first few pixels of the screen -->
+
+<body class="bg-[url('/static/media/background.png')] bg-cover h-full min-w-fit text-white overflow-hidden">
+  <div class="flex lg:flex items-center">
+    <div>
+      <img src="{% static 'image1.png' %}" class="w-80" />
+    </div>
+    <div class="ml-auto">
+      <img src="{% static 'image2.png' %}" class="w-96" />
+    </div>
+  </div>
+  <div class="mx-2 md:w-8/12 md:mx-auto h-8/12 my-auto">
+    <div class="bg-[#232B3E] w-9/12 lg:w-6/12 duration-500 mx-auto rounded-3xl shadow-xl font-semibold">
+      <form method="post" action=".">
+        <div class="duration-500 h-[430px] lg:h-[420px] rounded-2xl pt-4 px-8 mt-10 mx-auto justify-center">
+          {% csrf_token %}
+          <div class="mx-auto flex items-center">
+            <div class="justify-content">
+              <p class="text-4xl font-medium">Sign in</p>
+            </div>
+            <div class="ml-auto justify-end">
+              <img class="w-44" src="{% static 'image.png' %}" />
+            </div>
+          </div>
+          <div class="mt-4">
+            <p class="font-light text-xs mb-3 mt-1">Enter you Username</p>
+            {{ form.username }}
+          </div>
+          <div class="mt-7">
+            <p class="font-light text-xs mb-3 mt-1">Enter you Password</p>
+            {{ form.password }}
+          </div>
+          {% if form.errors or form.non_field_errors %}
+          <div class="mt-2 mb-3 p-6 rounded-xl">
+            {% for field in form %}
+            {{ field.errors }}
+            {% endfor %}
+            {{ form.non_field_errors }}
+          </div>
+          {% endif %}
+          <div class="mt-7">
+            <button class="font-md text-sm py-3 text-center bg-[#C0392B] rounded-xl w-full" type="submit">
+              Sign In
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="hidden md:flex lg:flex items-center">
+    <div>
+      <img src="{% static 'image2.png' %}" class="w-96" />
+    </div>
+    <div class="ml-auto">
+      <img src="{% static 'image3.png' %}" class="w-80" />
+    </div>
+  </div>
+  <!-- <script src="tailwind.config.js"></script> -->
+</body>
+
+</html>

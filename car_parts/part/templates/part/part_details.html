@@ -1,0 +1,69 @@
+{% extends "core/base.html" %} {% block title %}{{ part.title }}{% endblock %}
+{% block content %}
+<div
+  class="flex flex-col p-12 mt-2 md:mt-0 md:p-36 justify-start items-center h-screen"
+>
+  <div
+    class="flex flex-wrap md:flex-nowrap justify-start items-start md:flex-row w-full"
+  >
+    <div
+      class="flex flex-row justify-start md:space-x-3 rounded-xl md:w-[50%]"
+    >
+      <div class="flex space-x-2 h-full">
+        <div>
+          <img
+            src="{{ part.image.url }}"
+            class="rounded-t-xl w-64 h-64 md:w-52 md:h-52 mx-auto"
+          />
+        </div>
+        <div class="">
+          <h1 class="mb-6 text-3xl">{{ part.title }}</h1>
+          {% if part.brand %}
+          <p class="text-gray-500"><strong>Brand: </strong>{{ part.brand }}</p>
+          {% endif %} {% if part.model %}
+          <p class="text-gray-500"><strong>Model: </strong>{{ part.model }}</p>
+          {% endif %} {% if part.year %}
+          <p class="text-gray-500"><strong>Year: </strong>{{ part.year }}</p>
+          {% endif %} {% if part.power %}
+          <p class="text-gray-500"><strong>Power: </strong>{{ part.power }}</p>
+          {% endif %}
+          <p class="mt-5 text-gray-400">Added at {{ part.added_at }}</p>
+        </div>
+      </div>
+    </div>
+    {% if part.description %}
+    <div class="flex flex-col justify-start md:w-[50%] sm:w-full">
+      <div class="flex flex-col mt-4 md:p-2 md:justify-end">
+        <div class="text-gray-500 w-full"><strong>Extra Description: </strong></div>
+        <p class="text-gray-500">{{ part.description }}</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="flex flex-row justify-between items-center p-4 w-full space-x-3">
+    <div class="flex flex-row space-x-3">
+      <div
+        class="flex justify-center items-center text-slate-200 bg-[#b91c1c] rounded-lg w-40 p-2 mx-auto"
+      >
+        Available: {{ part.quantity }}
+      </div>
+      <div class="">
+        <a
+          href="{% url 'part:add_more' part.id %}"
+          class="flex justify-center items-center text-[#b91c1c] bg-white border border-[#b91c1c] rounded-lg w-40 h-10"
+        >
+          Add More
+        </a>
+      </div>
+    </div>
+    <div class="flex">
+      <a
+        href="{% url 'part:sell_part' part.id %}"
+        class="flex justify-center items-center text-[#b91c1c] bg-white border border-[#b91c1c] rounded-lg w-40 h-10"
+      >
+        Sell One (1)
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

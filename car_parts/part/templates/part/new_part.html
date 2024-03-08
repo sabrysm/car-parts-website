@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2 class="text-center text-3xl font-semibold mt-4">{{ title }}</h2>
+<form method="post" action="." class="part-form" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="space-y-4">
+    <div class="mx-auto w-10/12 md:w-8/12 lg:w-6/12">
+      <div class="bg-[#f9f9f9] py-4 px-12 lg:mt-20 rounded-xl shadow-sm">
+        <p>Upload Image</p>
+        {{ form.image }}
+        <div class="flex mx-auto w-full">
+          <div class="w-10/12 mt-4">
+            <p class="font-light mt-2 text-gray-800 text-md">Type Car Mark and Model</p>
+            {{ form.model }}
+            <p class="font-light mt-2 text-gray-800 text-md">Type Year of the Car</p>
+            {{ form.year }}
+            <p class="font-light mt-2 text-gray-800 text-md">Type Power of the Car</p>
+            {{ form.power }}
+            <p class="font-light mt-2 text-gray-800 text-md">Type Consumption of the Car</p>
+            {{ form.consumption }}
+            <p class="font-light mt-3 text-gray-800 text-md">Type Transmission of the Car</p>
+            {{ form.transmission }}
+          </div>
+          <div class="flex mx-auto w-full">
+            <div class="ml-auto w-10/12 mt-4">
+              <p class="font-light mt-2 text-gray-800 text-md">Type Title of the Product</p>
+              {{ form.title }}
+              <p class="font-light mt-2 text-gray-800 text-md">Brand of the Product</p>
+              {{ form.brand }}
+              <p class="font-light mt-2 text-gray-800 text-md">Condition</p>
+              {{ form.condition }}
+              <p class="font-light mt-2 text-gray-800 text-md">Extra Description</p>
+              {{ form.description }}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if form.errors or form.non_field_errors %}
+      <div class="mb-3 mt-3 p-6 bg-red-100 rounded-lg">
+        {% for field in form %}
+        {{ field.errors }}
+        {% endfor %}
+        {{ form.non_field_errors }}
+      </div>
+      {% endif %}
+      <div class="flex justify-between items-center">
+        <div class="flex justify-items-around items-center mx-auto space-x-3 w-full">
+          <button class="mt-2 px-3 py-2 w-24 font-md text-semibold text-center text-white bg-[#C0392B] rounded-lg"
+            type="submit">
+            Save
+          </button>
+          <button
+            class="mt-2 px-3 py-2 w-24 outline-none border border-solid border-[#c24235] rounded-lg font-semibold text-[#c24235]"
+            type="reset">
+            Reset
+          </button>
+        </div>
+        <div>
+          {{ form.quantity }}
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
