@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Part
+from .models import Part, SaleHistory
 from .forms import NewPartForm, SearchPartForm
+import datetime
 
 @login_required
 def results(request):
@@ -16,28 +16,24 @@ def results(request):
         title_query = request.GET.get('title', '')
         brand_query = request.GET.get('brand', '')
         condition_query = request.GET.get('condition', '')
-        description_query = request.GET.get('description', '')
         form = SearchPartForm()
-        """
-        parts is a queryset of Part objects that match the search criteria
-        where it matches the model, year, power, consumption, transmission, title, brand, condition, and description together
-        if a field is empty, it is not included in the search
 
-        Use Postgres search to search for the fields
-        """
-        parts = Part.objects.annotate(
-            search=SearchVector('model', 'year', 'power', 'consumption', 'transmission', 'title', 'brand', 'condition', 'description')
-        ).filter(
-            search=SearchQuery(model_query) & SearchQuery(year_query) & SearchQuery(power_query) & SearchQuery(consumption_query) & SearchQuery(transmission_query) & SearchQuery(title_query) & SearchQuery(brand_query) & SearchQuery(condition_query) & SearchQuery(description_query)
-        )
+        parts = Part.objects.filter(
+            Q(model__iexact=model_query) |
+            Q(year__iexact=year_query) |
+            Q(power__iexact=power_query) |
+            Q(consumption__iexact=consumption_query) |
+            Q(transmission__iexact=transmission_query) |
+            Q(title__iexact=title_query) |
+            Q(brand__iexact=brand_query) |
+            Q(condition__iexact=condition_query)
+            ).distinct()
 
-        print(parts)
-        
-        
         return render(request, 'part/results.html', {
-            'parts': parts,
-            'form': form
+            'form': form,
+            'parts': parts
         })
+
 
 @login_required
 def search(request):
@@ -80,8 +76,7 @@ def sell_part(request, pk):
     part = get_object_or_404(Part, pk=pk)
     if request.method == 'GET':
         if part.quantity > 0:
-            part.quantity -= 1
-            part.save()
+            part.sell_part()
             return redirect('part:part_details', pk=part.pk)
         part.delete()
         return redirect('core:index')
@@ -91,6 +86,16 @@ def add_more(request, pk):
     part = get_object_or_404(Part, pk=pk)
     if request.method == 'GET':
         if part.quantity >= 0:
-            part.quantity += 1
+            part.add_quantity(1)
             part.save()
             return redirect('part:part_details', pk=part.pk)
+
+@login_required
+def sold_parts(request):
+    sale_history = SaleHistory.objects.all().order_by('-sold_at').all()
+    print(f"Parts: {sale_history}")
+    title = 'Sold History'
+    return render(request, 'part/sold_history.html', {
+        'sale_history': sale_history,
+        'title': title
+    })

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.http import request
+from django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -28,3 +29,22 @@ class Part(models.Model):
     
     def __str__(self):
         return self.title
+
+
+    def sell_part(self):
+        SaleHistory.objects.create(part=self, sold=True)
+        self.quantity -= 1
+        self.save()
+    
+    def add_quantity(self, quantity):
+        self.quantity += quantity
+        SaleHistory.objects.create(part=self, sold=False)
+        self.save()
+
+class SaleHistory(models.Model):
+    part = models.ForeignKey('Part', on_delete=models.CASCADE)
+    sold_at = models.DateTimeField(default=timezone.now)
+    sold = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.part.title} - sold at {self.sold_at}"

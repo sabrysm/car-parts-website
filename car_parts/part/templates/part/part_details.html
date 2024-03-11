@@ -6,9 +6,7 @@
   <div
     class="flex flex-wrap md:flex-nowrap justify-start items-start md:flex-row w-full"
   >
-    <div
-      class="flex flex-row justify-start md:space-x-3 rounded-xl md:w-[50%]"
-    >
+    <div class="flex flex-row justify-start md:space-x-3 rounded-xl md:w-[50%]">
       <div class="flex space-x-2 h-full">
         <div>
           <img
@@ -34,32 +32,36 @@
     {% if part.description %}
     <div class="flex flex-col justify-start md:w-[50%] sm:w-full">
       <div class="flex flex-col mt-4 md:p-2 md:justify-end">
-        <div class="text-gray-500 w-full"><strong>Extra Description: </strong></div>
+        <div class="text-gray-500 w-full">
+          <strong>Extra Description: </strong>
+        </div>
         <p class="text-gray-500">{{ part.description }}</p>
       </div>
     </div>
     {% endif %}
   </div>
-  <div class="flex flex-row justify-between items-center p-4 w-full space-x-3">
-    <div class="flex flex-row space-x-3">
-      <div
-        class="flex justify-center items-center text-slate-200 bg-[#b91c1c] rounded-lg w-40 p-2 mx-auto"
-      >
-        Available: {{ part.quantity }}
-      </div>
-      <div class="">
-        <a
-          href="{% url 'part:add_more' part.id %}"
-          class="flex justify-center items-center text-[#b91c1c] bg-white border border-[#b91c1c] rounded-lg w-40 h-10"
+  <div
+    class="h-[50%] flex flex-col md:flex-row justify-center md:justify-between items-center mb-10 md:p-4 w-full md:space-x-3"
+  >
+    <div class="flex flex-col md:flex-row mb-2 md:space-x-3">
+        <div
+          class="flex justify-center items-center mb-2 md:mb-0 text-slate-200 bg-[#b91c1c] rounded-lg w-64 md:w-40 p-2 mx-auto"
         >
-          Add More
-        </a>
-      </div>
+          Available: {{ part.quantity }}
+        </div>
+        <div class="">
+          <a
+            href="{% url 'part:add_more' part.id %}"
+            class="flex justify-center items-center text-[#b91c1c] bg-white border border-[#b91c1c] rounded-lg w-64 md:w-40 h-10"
+          >
+            Add More
+          </a>
+        </div>
     </div>
     <div class="flex">
       <a
         href="{% url 'part:sell_part' part.id %}"
-        class="flex justify-center items-center text-[#b91c1c] bg-white border border-[#b91c1c] rounded-lg w-40 h-10"
+        class="flex justify-center items-center text-[#b91c1c] bg-white border border-[#b91c1c] rounded-lg w-64 md:w-40 h-10"
       >
         Sell One (1)
       </a>

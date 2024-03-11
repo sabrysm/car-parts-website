@@ -114,13 +114,3 @@ class SearchPartForm(forms.Form):
         'placeholder': 'New/Used',
         'name': 'condition'
     }))
-    description = forms.CharField(required=False, widget=forms.Textarea(attrs={
-                'class': INPUT_CLASSES,
-                'placeholder': 'With 2 fans, for bmw diesels',
-                'default': 'With 2 fans, for bmw diesels',
-                'rows':5, 
-                'cols':20,
-                'name': 'description'
-            }),
-    )
-    
