@@ -32,19 +32,20 @@ class Part(models.Model):
 
 
     def sell_part(self):
-        SaleHistory.objects.create(part=self, sold=True)
         self.quantity -= 1
+        SaleHistory.objects.create(part=self, sold=True, available=self.quantity)
         self.save()
     
     def add_quantity(self, quantity):
         self.quantity += quantity
-        SaleHistory.objects.create(part=self, sold=False)
+        SaleHistory.objects.create(part=self, sold=False, available=self.quantity)
         self.save()
 
 class SaleHistory(models.Model):
     part = models.ForeignKey('Part', on_delete=models.CASCADE)
     sold_at = models.DateTimeField(default=timezone.now)
     sold = models.BooleanField(default=False)
+    available = models.IntegerField(default=1)
 
     def __str__(self):
         return f"{self.part.title} - sold at {self.sold_at}"

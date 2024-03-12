@@ -7,15 +7,15 @@ import datetime
 
 @login_required
 def results(request):
-    if request.method == 'GET':
-        model_query = request.GET.get('model', '')
-        year_query = request.GET.get('year', '')
-        power_query = request.GET.get('power', '')
-        consumption_query = request.GET.get('consumption', '')
-        transmission_query = request.GET.get('transmission', '')
-        title_query = request.GET.get('title', '')
-        brand_query = request.GET.get('brand', '')
-        condition_query = request.GET.get('condition', '')
+    if request.method == 'POST':
+        model_query = request.POST.get('model', '')
+        year_query = request.POST.get('year', '')
+        power_query = request.POST.get('power', '')
+        consumption_query = request.POST.get('consumption', '')
+        transmission_query = request.POST.get('transmission', '')
+        title_query = request.POST.get('title', '')
+        brand_query = request.POST.get('brand', '')
+        condition_query = request.POST.get('condition', '')
         form = SearchPartForm()
 
         parts = Part.objects.filter(
@@ -58,11 +58,13 @@ def part_details(request, pk):
 @login_required
 def new_part(request):
     if request.method == 'POST':
+        print(f"\n\nPOST: {request.POST}")
         form = NewPartForm(request.POST, request.FILES)
         if form.is_valid():
             part = form.save(commit=False)
             part.created_by = request.user
             part.save()
+            SaleHistory.objects.create(part=part, sold=False, available=part.quantity)
             return redirect('part:part_details', pk=part.pk)
     else:
         form = NewPartForm()

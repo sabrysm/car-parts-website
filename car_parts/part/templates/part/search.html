@@ -3,7 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 <h2 class="text-center text-3xl font-semibold mt-10">{{ title }}</h2>
-<form method="get" action="{% url 'part:results' %}" class="part-form" enctype="multipart/form-data">
+<form method="post" action="{% url 'part:results' %}" class="part-form" enctype="multipart/form-data">
+  {% csrf_token %}
   <div class="space-y-4">
     <div class="mx-auto w-10/12 md:w-8/12 lg:w-6/12">
       <div class="bg-[#f9f9f9] py-4 px-12 lg:mt-20 rounded-xl shadow-sm">
